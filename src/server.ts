@@ -10,14 +10,14 @@ import mongoSanitize from "express-mongo-sanitize";
 
 import connectDB from "./db/connectDB";
 
-// import authRouter from './routes/authRoutes';
-// import userRouter from './routes/userRoutes';
-// import productRouter from './routes/productRoutes';
-// import reviewRouter from './routes/reviewRoutes';
-// import orderRouter from './routes/orderRoutes';
+import authRouter from "./routes/authRoutes";
+import userRouter from "./routes/userRoutes";
+import productRouter from "./routes/productRoutes";
+import reviewRouter from "./routes/reviewRoutes";
+import orderRouter from "./routes/orderRoutes";
 
-// import notFoundMiddleware from './middleware/not-found';
-// import errorHandlerMiddleware from './middleware/error-handler';
+import notFoundMiddleware from "./middleware/not-found";
+import errorHandlerMiddleware from "./middleware/error-handler";
 
 dotenv.config();
 
@@ -40,18 +40,14 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET!));
 app.use(fileUpload());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, TypeScript with Express!");
-});
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/orders", orderRouter);
 
-// app.use('/api/v1/auth', authRouter);
-// app.use('/api/v1/users', userRouter);
-// app.use('/api/v1/products', productRouter);
-// app.use('/api/v1/reviews', reviewRouter);
-// app.use('/api/v1/orders', orderRouter);
-
-// app.use(notFoundMiddleware);
-// app.use(errorHandlerMiddleware);
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const port: string | number = process.env.PORT || 5000;
 
